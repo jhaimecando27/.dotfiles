@@ -4,7 +4,6 @@ alias ls="ls -l --group-directories-first --color=always"
 alias ll="ls -la --group-directories-first --color=always"
 
 alias cp="cp -i"
-alias mv="mv -i -v"
 alias rm="rm -i"
 alias mkdir="mkdir -pv"
 
