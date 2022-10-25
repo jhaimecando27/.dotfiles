@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+if [ -z "$1" ]; then
+    echo "Usage: tmux-flask <session-name>"
+    exit 0
+fi
+
+session="$1"
+
+att() {
+    if [ -n "${TMUX:-}" ]; then
+        tmux switch-client -t $session:1
+    else
+        tmux attach-session -t $session:1
+    fi
+}
+
+
+# 1. First you check if a tmux session exists with a given name.
+if tmux has-session -t=$session 2> /dev/null; then
+    att
+    exit 0
+fi
+
+
+
+# 2. Create the session if it doesn't exists.
+tmux new-session -d -s $session
+
+window=1
+tmux rename-window -t $session:$window 'Code'
+tmux send-keys -t $session:$window '. venv/bin/activate' Enter
+tmux send-keys -t $session:$window 'nvim .' Enter
+
+window=2
+tmux new-window -t $session:$window -n
+tmux send-keys -t $session:$window '. venv/bin/activate' Enter
+
+window=3
+tmux new-window -t $session:$window -n 'Server'
+tmux send-keys -t $session:$window '. venv/bin/activate' Enter
+tmux send-keys -t $session:$window 'python3 run.py'
+
+window=4
+tmux new-window -t $session:$window 
+
+att

@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# I3 startups programs
+
+# Ref w/ explan: https://github.com/arcolinux/arcolinux-dwm/blob/master/etc/skel/.config/arco-dwm/autostart.sh
+
+function run {
+ if ! pgrep $1 ;
+  then
+    $@&
+  fi
+}
+
+run "nm-applet"
+run "xfce4-power-manager"
+run "/usr/lib64/xfce4/notifyd/xfce4-notifyd"
+run "/usr/libexec/polkit-gnome-authentication-agent-1"
+run "volumeicon"
+run "picom"
+run "xwinwrap -fs -ov -ni -- mpv -wid WID -loop '$HOME/Videos/Live Wallpapers/2wIACHP04qQ.mp4' &"
